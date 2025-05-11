@@ -1,6 +1,11 @@
-// Initialize AOS (Animate on Scroll)
+/**
+ * Enhanced connect.js - Combines functionality from both previous files
+ * with improved structure and performance optimizations
+ */
+
+// Initialize everything when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize AOS with custom settings
+    // Initialize AOS (Animate on Scroll) with optimized settings
     AOS.init({
         duration: 800,
         easing: 'ease-in-out',
@@ -9,54 +14,56 @@ document.addEventListener('DOMContentLoaded', function() {
         offset: 100
     });
 
-    // Create particle background effect
+    // Initialize all interactive features
     createParticles();
-    
-    // Handle newsletter form submission
     setupNewsletterForm();
-    
-    // Initialize the typewriter effect
     initTypewriterEffect();
-    
-    // Add smooth scrolling to all links
     addSmoothScrolling();
-    
-    // Add hover effects for social cards and CTA links
     addInteractionEffects();
+    initFormLabelAnimation();
 });
 
-// Function to create floating particles in the background
+/**
+ * Creates floating particles in the background for visual effect
+ */
 function createParticles() {
     const body = document.querySelector('body');
     const particleCount = 25;
+    const fragment = document.createDocumentFragment(); // Use document fragment for better performance
     
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
         
         // Random properties
-        const size = Math.random() * 5 + 2;
+        const size = Math.random() * 15 + 5; // Increased size range from second version
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
         const delay = Math.random() * 10;
-        const duration = Math.random() * 10 + 10;
+        const duration = Math.random() * 20 + 10; // Longer duration from second version
         const opacity = Math.random() * 0.4 + 0.1;
         
         // Apply styles
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        particle.style.left = `${posX}%`;
-        particle.style.top = `${posY}%`;
+        particle.style.left = `${posX}vw`; // Using vw for better responsiveness
+        particle.style.top = `${posY}vh`;  // Using vh for better responsiveness
         particle.style.opacity = opacity;
         particle.style.animationDelay = `${delay}s`;
         particle.style.animationDuration = `${duration}s`;
         
-        // Add particle to body
-        body.appendChild(particle);
+        // Add particle to fragment
+        fragment.appendChild(particle);
     }
+    
+    // Add all particles to body in one DOM operation
+    body.appendChild(fragment);
 }
 
-// Handle newsletter form submission
+/**
+ * Handles newsletter form submission
+ * Compatible with both direct DOM forms and React components
+ */
 function setupNewsletterForm() {
     const newsletterForm = document.getElementById('newsletter-form');
     const successMessage = document.getElementById('success-message');
@@ -69,53 +76,68 @@ function setupNewsletterForm() {
             const email = document.getElementById('email').value;
             
             // Normally, you would send this data to your backend/API
-            // For demo purposes, we'll just show the success message
             console.log('Email submitted:', email);
             
             // Hide form and show success message with animation
             newsletterForm.style.opacity = '0';
             setTimeout(() => {
                 newsletterForm.style.display = 'none';
-                successMessage.style.display = 'block';
+                if (successMessage) {
+                    successMessage.style.display = 'block';
+                }
                 
                 // Reset form
                 newsletterForm.reset();
             }, 300);
         });
     }
-}
-
-// Typewriter effect for the main heading
-function initTypewriterEffect() {
-    const typewriterElement = document.querySelector('.typewriter');
     
-    if (typewriterElement) {
-        const text = typewriterElement.textContent;
-        typewriterElement.textContent = '';
-        typewriterElement.style.width = '0';
-        
-        let charIndex = 0;
-        const typeSpeed = 80; // milliseconds per character
-        
-        function type() {
-            if (charIndex < text.length) {
-                typewriterElement.textContent += text.charAt(charIndex);
-                charIndex++;
-                setTimeout(type, typeSpeed);
-            } else {
-                // Remove the cursor animation once complete
-                setTimeout(() => {
-                    typewriterElement.style.borderRight = 'none';
-                }, 1500);
-            }
-        }
-        
-        // Start the typing animation after a short delay
-        setTimeout(type, 1000);
+    // Check for React-based newsletter forms
+    const reactForms = document.getElementById('newsletter-react-form');
+    if (reactForms) {
+        console.log('React newsletter form detected. Form handling is managed by React components.');
     }
 }
 
-// Add smooth scrolling to all links
+/**
+ * Creates typewriter effect for elements with the 'typewriter' class
+ */
+function initTypewriterEffect() {
+    const typewriterElements = document.querySelectorAll('.typewriter');
+    
+    if (typewriterElements.length > 0) {
+        typewriterElements.forEach(element => {
+            const text = element.textContent;
+            element.textContent = '';
+            element.style.width = '0';
+            
+            let charIndex = 0;
+            const typeSpeed = 80; // milliseconds per character
+            
+            function type() {
+                if (charIndex < text.length) {
+                    element.textContent += text.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, typeSpeed);
+                } else {
+                    // Remove the cursor animation once complete
+                    setTimeout(() => {
+                        element.style.borderRight = 'none';
+                    }, 1500);
+                }
+            }
+            
+            // Start the typing animation after a short delay
+            // Use different delays for multiple elements to create cascade effect
+            const delay = Array.from(typewriterElements).indexOf(element) * 500 + 1000;
+            setTimeout(type, delay);
+        });
+    }
+}
+
+/**
+ * Adds smooth scrolling behavior to all anchor links
+ */
 function addSmoothScrolling() {
     const allLinks = document.querySelectorAll('a[href^="#"]');
     
@@ -138,7 +160,9 @@ function addSmoothScrolling() {
     });
 }
 
-// Add interaction effects
+/**
+ * Adds various interaction effects for UI elements
+ */
 function addInteractionEffects() {
     // Add hover effects for social cards
     const socialCards = document.querySelectorAll('.social-card');
@@ -187,8 +211,10 @@ function addInteractionEffects() {
     });
 }
 
-// Form label animation
-document.addEventListener('DOMContentLoaded', function() {
+/**
+ * Creates animation effects for form input labels
+ */
+function initFormLabelAnimation() {
     const inputs = document.querySelectorAll('.form-group input, .form-group textarea');
     
     inputs.forEach(input => {
@@ -197,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const label = input.nextElementSibling;
             if (label && label.tagName === 'LABEL') {
                 label.classList.add('active');
+                label.style.transform = 'translateY(-25px) scale(0.8)';
             }
         }
         
@@ -222,4 +249,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
+}
+
+/**
+ * Check for legacy elements and provide warnings in the console
+ * Useful during migration to React components
+ */
+function checkLegacyElements() {
+    const oldForms = document.querySelectorAll('form:not(#newsletter-react-form)');
+    if (oldForms.length > 0) {
+        oldForms.forEach(form => {
+            if (form.id === 'newsletter-form') {
+                console.info('Legacy newsletter form detected. Consider migrating to React components.');
+            }
+        });
+    }
+}
+
+// Run legacy check after a short delay to not block initial rendering
+setTimeout(checkLegacyElements, 2000);
