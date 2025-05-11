@@ -694,3 +694,67 @@ footer {
     text-decoration: none;
     transition: all 0.3s;
 }
+/* Add these styles to your home.css file */
+
+#imageModal {
+    transition: all 0.3s ease;
+}
+
+#imageModal.fullscreen-mode {
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+}
+
+#imageModal.fullscreen-mode #modalImg {
+    max-height: 100vh;
+    max-width: 100vw;
+    object-fit: contain;
+}
+
+/* Fullscreen button styles */
+#fullscreenBtn {
+    position: absolute;
+    right: 60px; /* Position to the left of the close button */
+    top: 20px;
+    color: white;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1001;
+    padding: 5px;
+    transition: all 0.2s ease;
+}
+
+#fullscreenBtn:hover {
+    transform: scale(1.1);
+    color: #ddd;
+}
+
+/* Make sure modal controls are visible in fullscreen */
+#imageModal.fullscreen-mode #modalPrev,
+#imageModal.fullscreen-mode #modalNext,
+#imageModal.fullscreen-mode #modalClose,
+#imageModal.fullscreen-mode #fullscreenBtn {
+    opacity: 0.7; /* Slightly transparent by default */
+}
+
+#imageModal.fullscreen-mode #modalPrev:hover,
+#imageModal.fullscreen-mode #modalNext:hover,
+#imageModal.fullscreen-mode #modalClose:hover,
+#imageModal.fullscreen-mode #fullscreenBtn:hover {
+    opacity: 1; /* Fully visible on hover */
+}
+
+/* Make sure the image is centered and properly scaled in fullscreen mode */
+#imageModal.fullscreen-mode .modal-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/* Hide scrollbars in fullscreen mode */
+#imageModal.fullscreen-mode {
+    overflow: hidden;
+}

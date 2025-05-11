@@ -36,7 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalClose = document.getElementById('modalClose');
     const modalPrev = document.getElementById('modalPrev');
     const modalNext = document.getElementById('modalNext');
+    const fullscreenBtn = document.getElementById('fullscreenBtn'); // Add this to your HTML
     let currentIdx = 0;
+    let isFullScreen = false;
 
     function getImageSources() {
         return galleryItems.map(item => item.querySelector('img').src);
@@ -56,9 +58,17 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.add('show');
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        
+        // Automatically enter fullscreen when opening modal
+        enterFullScreen();
     }
 
     function closeModal() {
+        // Exit fullscreen before closing modal
+        if (isFullScreen) {
+            exitFullScreen();
+        }
+        
         modal.classList.remove('show');
         setTimeout(() => { modal.style.display = 'none'; }, 300);
         document.body.style.overflow = '';
@@ -80,6 +90,75 @@ document.addEventListener('DOMContentLoaded', () => {
         currentIdx = (currentIdx - 1 + imageSources.length) % imageSources.length;
         modalImg.src = imageSources[currentIdx];
         modalImg.alt = imageAlts[currentIdx];
+    }
+
+    // Fullscreen functionality
+    function enterFullScreen() {
+        if (modal.requestFullscreen) {
+            modal.requestFullscreen();
+        } else if (modal.mozRequestFullScreen) { // Firefox
+            modal.mozRequestFullScreen();
+        } else if (modal.webkitRequestFullscreen) { // Chrome, Safari & Opera
+            modal.webkitRequestFullscreen();
+        } else if (modal.msRequestFullscreen) { // IE/Edge
+            modal.msRequestFullscreen();
+        }
+        
+        isFullScreen = true;
+        if (fullscreenBtn) {
+            fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+        }
+        
+        // Add a class to the modal for full-screen styling
+        modal.classList.add('fullscreen-mode');
+    }
+
+    function exitFullScreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari & Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
+        }
+        
+        isFullScreen = false;
+        if (fullscreenBtn) {
+            fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+        }
+        
+        // Remove the fullscreen styling class
+        modal.classList.remove('fullscreen-mode');
+    }
+
+    function toggleFullScreen() {
+        if (isFullScreen) {
+            exitFullScreen();
+        } else {
+            enterFullScreen();
+        }
+    }
+
+    // Listen for fullscreen change events
+    document.addEventListener('fullscreenchange', fullscreenChangeHandler);
+    document.addEventListener('webkitfullscreenchange', fullscreenChangeHandler);
+    document.addEventListener('mozfullscreenchange', fullscreenChangeHandler);
+    document.addEventListener('MSFullscreenChange', fullscreenChangeHandler);
+
+    function fullscreenChangeHandler() {
+        // Update button state if user exits fullscreen via browser controls
+        if (!(document.fullscreenElement || 
+              document.webkitFullscreenElement || 
+              document.mozFullScreenElement ||
+              document.msFullscreenElement)) {
+            isFullScreen = false;
+            if (fullscreenBtn) {
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+            }
+            modal.classList.remove('fullscreen-mode');
+        }
     }
 
     // Add click event to the view buttons
@@ -104,11 +183,28 @@ document.addEventListener('DOMContentLoaded', () => {
     modalNext.addEventListener('click', showNext);
     modalPrev.addEventListener('click', showPrev);
     
+    // Add fullscreen button event listener if it exists
+    if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', toggleFullScreen);
+    }
+    
     window.addEventListener('keydown', (e) => {
         if (!modal.classList.contains('show')) return;
-        if (e.key === 'Escape') closeModal();
+        if (e.key === 'Escape') {
+            // Prevent default Escape behavior which would exit fullscreen
+            e.preventDefault();
+            
+            // If in fullscreen mode, just exit fullscreen
+            // Otherwise close the modal completely
+            if (isFullScreen) {
+                exitFullScreen();
+            } else {
+                closeModal();
+            }
+        }
         if (e.key === 'ArrowRight') showNext();
         if (e.key === 'ArrowLeft') showPrev();
+        if (e.key === 'f') toggleFullScreen(); // Add 'f' key for fullscreen toggle
     });
     
     modal.addEventListener('click', (e) => {
@@ -117,13 +213,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fixed header behavior
     const header = document.querySelector('.fixed-header');
-    const headerHeight = header.offsetHeight;
+    const headerHeight = header ? header.offsetHeight : 0;
     
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
+        if (header) {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
         }
     });
 

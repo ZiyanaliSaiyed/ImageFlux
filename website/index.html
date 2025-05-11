@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="assets/fonts/fontawesome/css/all.min.css">
         <!-- Custom CSS -->
         <link rel="stylesheet" href="assets/css/home.css">
+        <link href="assets/css/output.css" rel="stylesheet"> 
     </head>
 <body>
   <!--  <header>
@@ -36,6 +37,7 @@
         </div>
     </header>
   -->
+    
   <header class="fixed-header">
     <div class="header-container">
         <div class="logo">
@@ -283,12 +285,12 @@
         </section>
 
         <!-- Image Viewer Modal -->
-        <div id="imageModal" class="modal" style="display:none;">
-            <span class="modal-close" id="modalClose">×</span>
-            <img class="modal-content" id="modalImg" src="" alt="Full Size Art">
-            <button class="modal-prev" id="modalPrev">❮</button>
-            <button class="modal-next" id="modalNext">❯</button>
-        </div>
+        <div id="imageModal" class="modal" style="display:none;" data-fullscreen="false">
+    <span class="modal-close" id="modalClose">×</span>
+    <img class="modal-content" id="modalImg" src="" alt="Full Size Art">
+    <button class="modal-prev" id="modalPrev">❮</button>
+    <button class="modal-next" id="modalNext">❯</button>
+</div>
         <style>
         /* Modal Styles */
         .modal {
@@ -377,6 +379,24 @@
             </div>
         </div>
     </footer>
+    <!-- Update your modal HTML structure to include the fullscreen button -->
+<div id="imageModal" class="modal">
+    <div class="modal-content">
+        <span id="modalClose">&times;</span>
+        <button id="fullscreenBtn"><i class="fas fa-expand"></i></button>
+        <img id="modalImg" src="" alt="">
+        <button id="modalPrev" class="modal-nav-btn prev-btn">&lt;</button>
+        <button id="modalNext" class="modal-nav-btn next-btn">&gt;</button>
+    </div>
+</div>
+
+<!-- 
+Note: If you're not using Font Awesome for icons, you can replace the icon with:
+- Text like "Fullscreen" / "Exit"
+- Unicode symbols like "⛶" / "⤧"
+- Or add this link to your <head> to use Font Awesome:
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+-->
     <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <!-- AOS Library for scroll animations -->
