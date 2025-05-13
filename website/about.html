@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageFlux - About</title>
+    <link rel="stylesheet" href="assets/css/about.css">
+<link href="assets/css/output.css" rel="stylesheet">
+</head>
+<body>
+    <!-- SVG Background Ornaments -->
+    <div class="background-ornaments">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#7B2CBF" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#5A189A" stop-opacity="0.3"/>
+                </linearGradient>
+            </defs>
+            <path d="M0,50 Q250,150 500,50 T1000,50" fill="none" stroke="url(#grad1)" stroke-width="2">
+                <animate attributeName="d" dur="20s" repeatCount="indefinite"
+                    values="M0,50 Q250,150 500,50 T1000,50;
+                            M0,50 Q250,100 500,150 T1000,50;
+                            M0,150 Q250,50 500,100 T1000,150;
+                            M0,50 Q250,150 500,50 T1000,50"/>
+            </path>
+            <path d="M0,100 Q250,200 500,100 T1000,100" fill="none" stroke="url(#grad1)" stroke-width="2" opacity="0.5">
+                <animate attributeName="d" dur="25s" repeatCount="indefinite"
+                    values="M0,100 Q250,200 500,100 T1000,100;
+                            M0,200 Q250,100 500,200 T1000,200;
+                            M0,100 Q250,200 500,100 T1000,100"/>
+            </path>
+            <circle cx="50%" cy="50%" r="150" fill="none" stroke="#9D4EDD" stroke-width="2" opacity="0.2">
+                <animate attributeName="r" dur="15s" repeatCount="indefinite" values="150;200;150"/>
+            </circle>
+        </svg>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="logo">Image<span>Flux</span></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html" style="color: var(--primary-light);">About</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="connect.html">Connect</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="about-hero parallax" data-speed="0.05">
+            <div class="typing-container">
+                <h1 class="typing-text">About ImageFlux</h1>
+            </div>
+            <p class="about-tagline">Where imagination meets automation. Dive into a living canvas of digital art that evolves daily.</p>
+        </div>
+
+        <!-- Main About Card -->
+        <div class="about-card parallax" data-speed="0.03">
+            <h2 class="section-title">Our Story</h2>
+            <p>ImageFlux is a curated digital art platform where the boundaries between imagination and visual storytelling blur into vibrant abstraction. It's a visual gallery and expressive space that celebrates creativity, emotion, and the power of color.</p>
+            <br>
+            <p>The goal is to deliver daily doses of visual poetry — images that aren't just seen, but felt. Our evolving gallery brings together cosmic visuals, surreal forms, and abstract emotions in a cohesive digital flow.</p>
+            <br>
+            <p>Built with love by an aspiring computer science creator, ImageFlux fuses design, automation, and creativity. Through automation (via Python) and curated curation, it seeks to become a living archive of visual art.</p>
+            <br>
+            <p>At <span class="highlight">ImageFlux</span>, imagination meets automation. We are building a new realm of visual storytelling where art <span class="highlight">evolves every day</span>. Fueled by code and creativity, our platform curates a living mosaic of abstract digital experiences. Dive in—not just to view art, but to <span class="highlight">feel it</span>.</p>
+            <br>
+            <p>Whether you're here to explore or to be inspired, ImageFlux welcomes you to dive deep into abstract worlds.</p>
+        </div>
+
+        <!-- Mission & Vision Section -->
+        <div class="mission-vision">
+            <div class="mission parallax" data-speed="0.02">
+                <div class="mission-vision-icon">✦</div>
+                <h3>Our Mission</h3>
+                <p>To create a self-evolving digital art experience that brings emotional resonance to abstract visuals through the fusion of human creativity and algorithmic curation.</p>
+            </div>
+            <div class="vision parallax" data-speed="0.02">
+                <div class="mission-vision-icon">◈</div>
+                <h3>Our Vision</h3>
+                <p>A world where digital art flows like water — constantly refreshing, surprising, and nourishing the human spirit with new perspectives and visual languages.</p>
+            </div>
+        </div>
+
+        <!-- Tech Stack Section -->
+        <div class="tech-stack parallax" data-speed="0.01">
+            <div class="tech-title">
+                <div class="tech-icon">⚙️</div>
+                <h3>What Powers ImageFlux?</h3>
+            </div>
+            <p>Behind the seamless visual experience is a blend of artistic vision and technical innovation. Our platform leverages modern web technologies and automation to deliver fresh content daily.</p>
+            
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="tech-item-icon">🐍</div>
+                    <h4>Python</h4>
+                    <p>For backend automation and image processing</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-item-icon">🔄</div>
+                    <h4>GitHub Actions</h4>
+                    <p>Scheduled updates and deployment</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-item-icon">🎨</div>
+                    <h4>CSS Animation</h4>
+                    <p>Fluid visual experience</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-item-icon">📱</div>
+                    <h4>Responsive Design</h4>
+                    <p>Optimized for all devices</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="timeline">
+            <h2 class="section-title">Our Journey</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">May 2025</div>
+                <div class="timeline-content">
+                    <h3>Platform Launch</h3>
+                    <p>ImageFlux goes live with its first collection of curated abstract art</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">June 2025</div>
+                <div class="timeline-content">
+                    <h3>Automated Curation</h3>
+                    <p>Integration of Python-based curation system for daily content refreshes</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">August 2025</div>
+                <div class="timeline-content">
+                    <h3>Artist Collaborations</h3>
+                    <p>Opening platform for featured digital artists to showcase their work</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">October 2025</div>
+                <div class="timeline-content">
+                    <h3>Interactive Elements</h3>
+                    <p>Adding user interaction and personalized experiences</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section parallax" data-speed="0.04">
+            <h2 class="cta-title">Ready to Experience Visual Poetry?</h2>
+            <p>Explore our ever-evolving gallery of abstract digital art curated just for you</p>
+            <a href="gallery.html" class="cta-button">Enter the Gallery</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 ImageFlux. Designed with passion and pixels.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="assets/js/about.js"></script>
+</body>
+</html>
