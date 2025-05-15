@@ -1,225 +1,148 @@
-// Initialize AOS (Animate on Scroll)
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize AOS with custom settings
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize AOS
     AOS.init({
         duration: 800,
         easing: 'ease-in-out',
-        once: true,
-        mirror: false,
-        offset: 100
+        once: true
     });
-
-    // Create particle background effect
-    createParticles();
     
-    // Handle newsletter form submission
+    // Setup newsletter form handling
     setupNewsletterForm();
     
-    // Initialize the typewriter effect
-    initTypewriterEffect();
-    
-    // Add smooth scrolling to all links
-    addSmoothScrolling();
-    
-    // Add hover effects for social cards and CTA links
-    addInteractionEffects();
+    // Initialize simple globe canvas
+    initSimpleGlobeCanvas();
 });
 
-// Function to create floating particles in the background
-function createParticles() {
-    const body = document.querySelector('body');
-    const particleCount = 25;
+// Simple globe canvas initialization
+function initSimpleGlobeCanvas() {
+    const canvas = document.getElementById('globeCanvas');
+    if (!canvas) return;
     
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        // Random properties
-        const size = Math.random() * 5 + 2;
-        const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        const delay = Math.random() * 10;
-        const duration = Math.random() * 10 + 10;
-        const opacity = Math.random() * 0.4 + 0.1;
-        
-        // Apply styles
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${posX}%`;
-        particle.style.top = `${posY}%`;
-        particle.style.opacity = opacity;
-        particle.style.animationDelay = `${delay}s`;
-        particle.style.animationDuration = `${duration}s`;
-        
-        // Add particle to body
-        body.appendChild(particle);
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas dimensions
+    function resizeCanvas() {
+        const container = canvas.parentElement;
+        canvas.width = container.offsetWidth;
+        canvas.height = container.offsetHeight;
     }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // Draw a simple globe with connection points
+    function drawGlobe() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(canvas.width, canvas.height) * 0.35;
+        
+        // Draw globe
+        const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+        gradient.addColorStop(0, 'rgba(10, 50, 100, 0.8)');
+        gradient.addColorStop(1, 'rgba(0, 30, 60, 0.3)');
+        
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+        
+        // Draw grid lines
+        ctx.strokeStyle = 'rgba(0, 200, 255, 0.2)';
+        ctx.lineWidth = 1;
+        
+        // Horizontal lines
+        for (let i = -4; i <= 4; i += 1) {
+            const lineRadius = Math.cos(Math.abs(i) * Math.PI / 8) * radius;
+            const y = centerY + i * radius / 4;
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, lineRadius, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        
+        // Vertical lines
+        for (let i = 0; i < 12; i++) {
+            const angle = i * Math.PI / 6;
+            
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(
+                centerX + Math.cos(angle) * radius,
+                centerY + Math.sin(angle) * radius
+            );
+            ctx.stroke();
+        }
+        
+        // Add connection points
+        const points = [];
+        for (let i = 0; i < 15; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 0.8 + 0.2; // 0.2 to 1.0
+            
+            const x = centerX + Math.cos(angle) * distance * radius;
+            const y = centerY + Math.sin(angle) * distance * radius;
+            
+            points.push({ x, y });
+            
+            // Draw point
+            ctx.beginPath();
+            ctx.arc(x, y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0, 220, 255, 0.8)';
+            ctx.fill();
+            
+            // Draw glowing effect
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0, 220, 255, 0.3)';
+            ctx.fill();
+        }
+        
+        // Connect some points with lines
+        ctx.strokeStyle = 'rgba(0, 200, 255, 0.3)';
+        ctx.lineWidth = 1;
+        
+        for (let i = 0; i < points.length; i++) {
+            for (let j = i + 1; j < points.length; j++) {
+                if (Math.random() > 0.7) { // Only connect some points
+                    ctx.beginPath();
+                    ctx.moveTo(points[i].x, points[i].y);
+                    ctx.lineTo(points[j].x, points[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+        
+        // Request animation frame
+        requestAnimationFrame(drawGlobe);
+    }
+    
+    drawGlobe();
 }
 
-// Handle newsletter form submission
+// Setup newsletter form with validation and submission handling
 function setupNewsletterForm() {
-    const newsletterForm = document.getElementById('newsletter-form');
+    const form = document.getElementById('newsletter-form');
+    const emailInput = document.getElementById('email');
     const successMessage = document.getElementById('success-message');
     
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get email value
-            const email = document.getElementById('email').value;
-            
-            // Normally, you would send this data to your backend/API
-            // For demo purposes, we'll just show the success message
-            console.log('Email submitted:', email);
-            
-            // Hide form and show success message with animation
-            newsletterForm.style.opacity = '0';
-            setTimeout(() => {
-                newsletterForm.style.display = 'none';
-                successMessage.style.display = 'block';
-                
-                // Reset form
-                newsletterForm.reset();
-            }, 300);
-        });
-    }
-}
-
-// Typewriter effect for the main heading
-function initTypewriterEffect() {
-    const typewriterElement = document.querySelector('.typewriter');
+    if (!form || !emailInput || !successMessage) return;
     
-    if (typewriterElement) {
-        const text = typewriterElement.textContent;
-        typewriterElement.textContent = '';
-        typewriterElement.style.width = '0';
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
         
-        let charIndex = 0;
-        const typeSpeed = 80; // milliseconds per character
+        const email = emailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
-        function type() {
-            if (charIndex < text.length) {
-                typewriterElement.textContent += text.charAt(charIndex);
-                charIndex++;
-                setTimeout(type, typeSpeed);
-            } else {
-                // Remove the cursor animation once complete
-                setTimeout(() => {
-                    typewriterElement.style.borderRight = 'none';
-                }, 1500);
-            }
+        if (!email || !emailRegex.test(email)) {
+            alert('Please enter a valid email address');
+            return;
         }
         
-        // Start the typing animation after a short delay
-        setTimeout(type, 1000);
-    }
-}
-
-// Add smooth scrolling to all links
-function addSmoothScrolling() {
-    const allLinks = document.querySelectorAll('a[href^="#"]');
-    
-    allLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            
-            if (href !== '#') {
-                e.preventDefault();
-                const target = document.querySelector(href);
-                
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
+        // Show success message (in a real app, you'd send this to your backend)
+        emailInput.value = '';
+        form.style.display = 'none';
+        successMessage.style.display = 'block';
     });
 }
-
-// Add interaction effects
-function addInteractionEffects() {
-    // Add hover effects for social cards
-    const socialCards = document.querySelectorAll('.social-card');
-    
-    socialCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px)';
-            this.style.boxShadow = '0 0 15px rgba(157, 78, 221, 0.6), 0 0 30px rgba(157, 78, 221, 0.3)';
-            
-            // Animate icon
-            const icon = this.querySelector('.icon-wrapper i');
-            if (icon) {
-                icon.style.transform = 'scale(1.2)';
-            }
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = 'none';
-            
-            // Reset icon
-            const icon = this.querySelector('.icon-wrapper i');
-            if (icon) {
-                icon.style.transform = 'scale(1)';
-            }
-        });
-    });
-    
-    // Add hover effects for CTA links
-    const ctaLinks = document.querySelectorAll('.cta-link');
-    
-    ctaLinks.forEach(link => {
-        link.addEventListener('mouseenter', function() {
-            const icon = this.querySelector('i');
-            if (icon) {
-                icon.style.transform = 'translateX(5px)';
-            }
-        });
-        
-        link.addEventListener('mouseleave', function() {
-            const icon = this.querySelector('i');
-            if (icon) {
-                icon.style.transform = 'translateX(0)';
-            }
-        });
-    });
-}
-
-// Form label animation
-document.addEventListener('DOMContentLoaded', function() {
-    const inputs = document.querySelectorAll('.form-group input, .form-group textarea');
-    
-    inputs.forEach(input => {
-        // Handle initial state (if field already has value)
-        if (input.value) {
-            const label = input.nextElementSibling;
-            if (label && label.tagName === 'LABEL') {
-                label.classList.add('active');
-            }
-        }
-        
-        // Handle focus
-        input.addEventListener('focus', function() {
-            const label = this.nextElementSibling;
-            if (label && label.tagName === 'LABEL') {
-                label.classList.add('active');
-                label.style.transform = 'translateY(-25px) scale(0.8)';
-                label.style.color = 'var(--primary-color)';
-            }
-        });
-        
-        // Handle blur (when focus is lost)
-        input.addEventListener('blur', function() {
-            if (!this.value) {
-                const label = this.nextElementSibling;
-                if (label && label.tagName === 'LABEL') {
-                    label.classList.remove('active');
-                    label.style.transform = '';
-                    label.style.color = '';
-                }
-            }
-        });
-    });
-});
