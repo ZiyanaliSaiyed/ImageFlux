@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Art Gallery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/CSS/gallery.css">
+</head>
+<body class="dark-mode">
+    <header>
+        <div class="container">
+            <h1>Art <span class="accent">Gallery</span></h1>
+            <div class="header-controls">
+                <div class="theme-toggle">
+                    <span class="toggle-label">Theme</span>
+                    <button id="theme-switch" aria-label="Switch between dark and light mode">
+                        <span class="moon">🌙</span>
+                        <span class="sun">☀️</span>
+                        <span class="toggle-thumb"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="gallery-filter container">
+        <div class="filter-controls">
+            <h2>Filter Gallery</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="nature">Nature</button>
+                <button class="filter-btn" data-filter="abstract">Abstract</button>
+                <button class="filter-btn" data-filter="portrait">Portrait</button>
+                <button class="filter-btn" data-filter="architecture">Architecture</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery-container container" data-image-dir="website/gallery_images/display">
+        <!-- Skeleton loaders that will display while images load -->
+        <div class="skeleton-grid">
+            <div class="skeleton-item"></div>
+            <div class="skeleton-item"></div>
+            <div class="skeleton-item"></div>
+            <div class="skeleton-item"></div>
+            <div class="skeleton-item"></div>
+            <div class="skeleton-item"></div>
+            <div class="skeleton-item"></div>
+            <div class="skeleton-item"></div>
+        </div>
+
+        <!-- Main gallery grid that will be populated by JavaScript -->
+        <div class="gallery-grid" id="gallery-grid"></div>
+
+        <!-- Load more button -->
+        <div class="load-more-container">
+            <button id="load-more">Load More</button>
+        </div>
+    </section>
+
+    <!-- Modal for enlarged image view -->
+    <div class="modal" id="image-modal">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">×</button>
+            <button class="modal-nav prev" aria-label="Previous image">❮</button>
+            <div class="modal-image-container">
+                <img src="" alt="" id="modal-image">
+            </div>
+            <button class="modal-nav next" aria-label="Next image">❯</button>
+            <div class="modal-info">
+                <h3 id="modal-title"></h3>
+                <p id="modal-description"></p>
+                <div id="modal-tags"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Modern Art Gallery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/JS/gallery.js"></script>
+</body>
+</html>
